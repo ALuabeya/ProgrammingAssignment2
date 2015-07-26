@@ -5,38 +5,39 @@
 
 ## Write a short comment describing this function
 
-## makeCacheMatrix is a function to create a matrix containing a list of functions to
+## makeCacheMatrix is a function to create a matrix containing a list of functions 
 ## to set the matrix, get the matrix, set the inverse matrix and get the inverse matrix
 
 makeCacheMatrix <- function(x = matrix()) {
-    invmatrix<-NULL
-    set<-function(y){
-        X<<-y
-        invmatrix<<-NULL
+    inv.data <- NULL
+    set <- function(y) {
+        # I used <<- to assign a value to an object in an environment different from the current environment
+        x <<- y
+        inv.data <<- NULL
     }
-    get<-function() x
-    setinvmatrix<-function(solve)invmatrix<<-solve
-    getinvmatrix<-function() invmatrix
-    list(set=set,get=get,setinvmatrix=setinvmatrix,getinvmatrix=getinvmatrix)
-    }
+    get <- function() x
+    setinverse <- function(inverse) inv.data <<- inverse
+    getinverse <- function() inv.data
+    list(set=set, get=get, setinverse=setinverse, getinverse=getinverse)
+}
 
 
 ## Write a short comment describing this function
-##cacheSolve: use a matrix defined as makeCache Matrix() and returns the inverted form of the matrix
-##if called
-
+## this function  use the matrix which was created as makecaheMatrix() 
+## and return the inverted form of the matrix
+## when called
+## and  when find a non null value, it return it otherwise it generate it with solve function
 cacheSolve <- function(x, ...) {
-invmatrix<-x$getinvmatrix()
-        if(!is.null(invmatrix)){
-        message("getting cached data")
-        return(invmatrix)
-        
+    ## Return a matrix that is the inverse of 'x'
+    inv.data = x$getinverse()  
+    if (!is.null(inv.data) ) {
+        message("Getting cached data")
+        return(inv.data)
     }
-matrixdata<-
-getsolve<- solve(matrixdata,...)
-x$setinvmatrix(invmatrix)
-invmatrix
-}
-       
-        ## Return a matrix that is the inverse of 'x'
+    
+    matrix.data <- x$get()
+    inv.data <- solve(matrix.data, ... )
+    
+    x$setinv(inv.data)
+    return(inv.data)
 }
